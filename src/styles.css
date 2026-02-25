@@ -1,0 +1,99 @@
+/* ============================================================
+   GLOBAL STYLES — Angul-It Captcha
+   Design system: dark editorial, monospaced accents, sharp geometry
+   ============================================================ */
+
+/* --- Google Fonts import: Barlow Condensed (display) + IBM Plex Mono (mono accents) ---
+   Barlow Condensed: tall, tight, industrial — same dark/technical feel as Syne
+   but numerals and mixed-case titles align much more cleanly in constrained cards. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+/* --- CSS Design Tokens (change these to retheme the whole app) --- */
+:root {
+  --color-bg:        #0d0d0d;       /* near-black page background          */
+  --color-surface:   #161616;       /* card / panel background              */
+  --color-border:    #2a2a2a;       /* subtle borders                       */
+  --color-accent:    #c8f542;       /* electric lime — primary accent       */
+  --color-accent-dim:#8aab1e;       /* dimmed accent for hover states       */
+  --color-text:      #f0f0f0;       /* primary text                         */
+  --color-muted:     #888;          /* secondary / helper text              */
+  --color-error:     #ff4d4d;       /* error / incorrect feedback           */
+  --color-success:   #c8f542;       /* success / correct feedback           */
+
+  --font-display:    'Barlow Condensed', sans-serif;
+  --font-mono:       'IBM Plex Mono', monospace;
+
+  --radius-sm:       6px;
+  --radius-md:       12px;
+  --radius-lg:       20px;
+
+  --shadow-card:     0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Reset: remove browser defaults for consistency --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- Base document setup --- */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* --- Default font for all text --- */
+body {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Buttons inherit font so they don't revert to browser default --- */
+button {
+  font-family: var(--font-display);
+  cursor: pointer;
+}
+
+/* --- Disabled state for any button --- */
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- Inputs inherit font too --- */
+input {
+  font-family: var(--font-mono);
+}
+
+/* ---- Language toggle button ----
+   Floated in the top-right corner of every page.
+   position:fixed so it stays visible during scroll. */
+.lang-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1.25rem;
+  z-index: 100;
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.lang-toggle:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
