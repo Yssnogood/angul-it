@@ -1,0 +1,159 @@
+/* ============================================================
+   HOME COMPONENT STYLES
+   The landing page — introduces the captcha and lets the user begin
+   ============================================================ */
+
+/* --- Full-viewport centering wrapper with textured dark background --- */
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+
+  /* Subtle dot-grid texture on top of the global bg colour */
+  background-color: var(--color-bg);
+  background-image: radial-gradient(circle, #2a2a2a 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* --- Central card panel --- */
+.home-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 3rem;
+  max-width: 780px;
+  width: 100%;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+
+  /* Slide-up entrance animation */
+  animation: slideUp 0.5s ease both;
+}
+
+/* --- Accent badge above the heading (e.g. "v2.0") --- */
+.home-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* --- Main page title --- */
+.home-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.25;          /* was 1.1 — too tight for the descenders */
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+  padding-bottom: 0.1em;      /* prevents bottom of letters being clipped */
+}
+
+/* --- Lime accent line — sits on its own line below the first --- */
+.home-title span {
+  display: block;
+  color: var(--color-accent);
+  line-height: 1.2;
+}
+
+/* --- Short subtitle / description --- */
+.home-subtitle {
+  color: var(--color-muted);
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto 3rem;
+  line-height: 1.7;
+}
+
+/* --- Three feature cards in a responsive row --- */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+/* --- Individual feature card --- */
+.feature-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.25rem;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+  text-align: left;
+}
+
+/* Hover: lift + highlight border with accent colour */
+.feature-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-4px);
+}
+
+/* --- Icon displayed at top of each feature card --- */
+.feature-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* --- Feature title --- */
+.feature-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.4rem;
+}
+
+/* --- Feature description --- */
+.feature-card p {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+/* --- Primary CTA button to start the captcha --- */
+.btn-start {
+  background: var(--color-accent);
+  color: #0d0d0d;                   /* dark text on bright bg for contrast */
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  border-radius: var(--radius-sm);  /* sharp corners — intentional */
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-start:hover {
+  background: var(--color-accent-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200, 245, 66, 0.25);
+}
+
+.btn-start:active {
+  transform: translateY(0);
+}
+
+/* --- Slide-up keyframe used by the card --- */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* --- Responsive: tighten padding on small screens --- */
+@media (max-width: 560px) {
+  .home-card {
+    padding: 2.5rem 1.5rem;
+  }
+}

@@ -1,0 +1,62 @@
+<!-- ============================================================
+     HOME TEMPLATE
+     Landing page: lang toggle → badge → title → features → CTA
+     All visible text comes from lang.t() (LanguageService) so
+     switching FR ↔ EN updates everything instantly with no reload.
+     ============================================================ -->
+
+<div class="home-container">
+
+  <!-- Language toggle button — fixed top-right (styled in global.css).
+       Shows the OTHER language so the user knows what they're switching TO. -->
+  <button class="lang-toggle" (click)="lang.toggle()">
+    {{ lang.toggleLabel() }}
+  </button>
+
+  <div class="home-card">
+
+    <!-- Mono badge — tone-setter, switches language with everything else -->
+    <span class="home-badge">{{ lang.t().home.badge }}</span>
+
+    <!-- Two-line title: plain white line + accented lime line -->
+    <h1 class="home-title">
+      {{ lang.t().home.titleLine1 }}<br>
+      <span>{{ lang.t().home.titleLine2 }}</span>
+    </h1>
+
+    <!-- Short description paragraph -->
+    <p class="home-subtitle">{{ lang.t().home.subtitle }}</p>
+
+    <!-- Three feature highlight cards -->
+    <div class="features-grid">
+
+      <!-- Feature 1: Image recognition -->
+      <div class="feature-card">
+        <span class="feature-icon">◈</span>
+        <h3>{{ lang.t().home.feature1Title }}</h3>
+        <p>{{ lang.t().home.feature1Desc }}</p>
+      </div>
+
+      <!-- Feature 2: Multiple random stages -->
+      <div class="feature-card">
+        <span class="feature-icon">◎</span>
+        <h3>{{ lang.t().home.feature2Title }}</h3>
+        <p>{{ lang.t().home.feature2Desc }}</p>
+      </div>
+
+      <!-- Feature 3: Saved progress -->
+      <div class="feature-card">
+        <span class="feature-icon">◉</span>
+        <h3>{{ lang.t().home.feature3Title }}</h3>
+        <p>{{ lang.t().home.feature3Desc }}</p>
+      </div>
+
+    </div>
+
+    <!-- CTA button — generates challenges and navigates to /captcha -->
+    <button class="btn-start" (click)="startCaptcha()">
+      {{ lang.t().home.cta }}
+    </button>
+
+  </div>
+</div>
