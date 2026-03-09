@@ -1,0 +1,130 @@
+<!-- ============================================================
+     CAPTCHA TEMPLATE
+     Three challenge types:
+       1. select-multiple  — click image tiles
+       2. math             — type a number answer
+       3. text-input       — type the displayed word
+     All visible text is driven by LanguageService (lang.t())
+     so FR ↔ EN switching works instantly.
+     ============================================================ -->
+
+<div class="captcha-container">
+
+  <!-- Language toggle — same fixed button as on the home page -->
+  <button class="lang-toggle" (click)="lang.toggle()">
+    {{ lang.toggleLabel() }}
+  </button>
+
+  <div class="captcha-card">
+
+    <!-- Page heading and mono instruction line -->
+    <h2>{{ lang.t().captcha.heading }}</h2>
+    <p class="captcha-instruction">{{ lang.t().captcha.instruction }}</p>
+
+    <!-- ---- Stage progress pips ---- -->
+    <!-- One pip per stage; pips up to currentStage() are accent-coloured -->
+    <div class="stage-indicator">
+      <div
+        *ngFor="let n of [1, 2, 3]"
+        class="stage-pip"
+        [class.active]="n <= currentStage()"
+      ></div>
+    </div>
+
+    <!-- Mono stage counter e.g. "étape_1_sur_3" / "stage_1_of_3" -->
+    <p class="stage-label">{{ lang.t().captcha.stageLabel(currentStage(), totalStages) }}</p>
+
+    <!-- ---- Main challenge panel ---- -->
+    <div class="challenge-panel" *ngIf="currentChallenge">
+
+      <!-- Challenge question — reads from liveQuestion() computed so it
+           updates instantly when the language is toggled mid-challenge -->
+      <p class="challenge-question">{{ liveQuestion() }}</p>
+
+      <!-- ==== TYPE 1: Image-selection grid ==== -->
+      <!-- Uses liveTiles() so labels re-translate on language toggle -->
+      <div *ngIf="currentChallenge.type === 'select-multiple'" class="image-grid">
+        <div
+          *ngFor="let image of liveTiles()"
+          class="image-tile"
+          [class.selected]="isImageSelected(image.id)"
+          (click)="toggleImageSelection(image.id)"
+        >
+          <span class="tile-emoji">{{ image.emoji }}</span>
+          <span class="tile-label">{{ image.label }}</span>
+          <span class="tile-check" *ngIf="isImageSelected(image.id)">✓</span>
+        </div>
+      </div>
+
+      <!-- ==== TYPE 2: Math problem ==== -->
+      <!-- Equation itself is language-neutral; only the question above changes -->
+      <div *ngIf="currentChallenge.type === 'math'" class="math-challenge">
+        <div class="challenge-display">{{ currentChallenge.mathProblem }}</div>
+        <input
+          type="number"
+          class="answer-input"
+          [(ngModel)]="userInput"
+          [placeholder]="lang.t().captcha.placeholderNum"
+          (keyup.enter)="submitAnswer()"
+        />
+      </div>
+
+      <!-- ==== TYPE 3: Text / word input ==== -->
+      <!-- Uses liveWord() and liveHint() so both update on language toggle -->
+      <div *ngIf="currentChallenge.type === 'text-input'" class="text-challenge">
+        <div class="challenge-display">{{ liveWord() }}</div>
+        <p class="word-hint" *ngIf="liveHint()">// {{ liveHint() }}</p>
+        <input
+          type="text"
+          class="answer-input text-type"
+          [(ngModel)]="userInput"
+          [placeholder]="lang.t().captcha.placeholderText"
+          (keyup.enter)="submitAnswer()"
+        />
+      </div>
+
+      <!-- ---- Feedback strips ---- -->
+      <div class="feedback correct" *ngIf="showFeedback && isCorrect">
+        {{ lang.t().captcha.feedbackOk }}
+      </div>
+
+      <div class="feedback incorrect" *ngIf="showFeedback && !isCorrect">
+        {{ lang.t().captcha.feedbackFail }}
+        <br />
+        <button class="btn-retry" (click)="resetFeedback()">
+          {{ lang.t().captcha.retry }}
+        </button>
+      </div>
+
+      <!-- ---- Submit row ---- -->
+      <div class="submit-row" *ngIf="!showFeedback">
+        <!-- Selection counter — only shown for the image-grid challenge -->
+        <p
+          class="selection-count"
+          *ngIf="currentChallenge.type === 'select-multiple'"
+        >
+          {{ lang.t().captcha.selected(selectedImages.size, currentChallenge.images?.length ?? 0) }}
+        </p>
+
+        <!-- Submit / verify button -->
+        <button class="btn-submit" (click)="submitAnswer()">
+          {{ currentChallenge.type === 'select-multiple'
+              ? lang.t().captcha.btnVerify
+              : lang.t().captcha.btnSubmit }}
+        </button>
+      </div>
+
+    </div><!-- /challenge-panel -->
+
+    <!-- ---- Bottom navigation row ---- -->
+    <div class="nav-row">
+      <button class="btn-ghost" (click)="goBack()">
+        {{ lang.t().captcha.navHome }}
+      </button>
+      <button *ngIf="canGoBack()" class="btn-ghost" (click)="previousStage()">
+        {{ lang.t().captcha.navPrev }}
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,358 @@
+/* ============================================================
+   CAPTCHA COMPONENT STYLES
+   The main challenge screen — stage indicator, challenge area,
+   feedback messages, and navigation buttons.
+   ============================================================ */
+
+/* --- Full-viewport wrapper (same dot-grid bg as home) --- */
+.captcha-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--color-bg);
+  background-image: radial-gradient(circle, #2a2a2a 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* --- Central challenge card --- */
+.captcha-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  max-width: 720px;
+  width: 100%;
+  box-shadow: var(--shadow-card);
+  animation: slideUp 0.4s ease both;
+}
+
+/* --- Page heading --- */
+.captcha-card h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+/* --- Sub-heading instruction line --- */
+.captcha-instruction {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-mono);
+}
+
+/* ---- Stage progress indicator ---- */
+.stage-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Each stage pip (small rectangle) */
+.stage-pip {
+  height: 6px;
+  width: 48px;
+  border-radius: 3px;
+  background: var(--color-border);
+  transition: background 0.3s ease;
+}
+
+/* Active / completed pip gets the accent colour */
+.stage-pip.active {
+  background: var(--color-accent);
+}
+
+/* Mono label showing "Stage X / Y" */
+.stage-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* ---- Challenge area panel ---- */
+.challenge-panel {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Question text displayed above the input/grid --- */
+.challenge-question {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Image-selection grid (3 columns, responsive) ---- */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Individual image tile --- */
+.image-tile {
+  position: relative;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 110px;
+  user-select: none;
+}
+
+.image-tile:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+/* Selected state: accent border + subtle tinted background */
+.image-tile.selected {
+  border-color: var(--color-accent);
+  background: rgba(200, 245, 66, 0.07);
+}
+
+/* Large emoji inside each tile */
+.tile-emoji {
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+/* Small label below the emoji */
+.tile-label {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+/* Check mark badge that appears when a tile is selected */
+.tile-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--color-accent);
+  color: #0d0d0d;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Math challenge layout ---- */
+.math-challenge,
+.text-challenge {
+  text-align: center;
+}
+
+/* The box showing the math expression or the word to type */
+.challenge-display {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 2rem;
+  margin-bottom: 0.75rem;
+  background: var(--color-bg);
+  letter-spacing: 0.1em;
+}
+
+/* Small contextual hint shown below the word display (stage 3 only) */
+.word-hint {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* Shared input styling for both math and text inputs */
+.answer-input {
+  width: 100%;
+  max-width: 360px;
+  padding: 0.9rem 1.25rem;
+  font-size: 1.1rem;
+  font-family: var(--font-mono);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.answer-input::placeholder {
+  color: var(--color-muted);
+}
+
+/* Focused input highlights with accent colour ring */
+.answer-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(200, 245, 66, 0.12);
+}
+
+/* Text-type input — wide letter spacing to echo the display word style,
+   but NO text-transform so the user sees exactly what they type */
+.answer-input.text-type {
+  letter-spacing: 0.2em;
+}
+
+/* ---- Feedback messages (correct / incorrect) ---- */
+.feedback {
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+  animation: fadeIn 0.25s ease;
+}
+
+/* Green strip for correct answer */
+.feedback.correct {
+  background: rgba(200, 245, 66, 0.1);
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Red strip for wrong answer */
+.feedback.incorrect {
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+}
+
+/* ---- Submit / action buttons ---- */
+.submit-row {
+  text-align: center;
+  padding-top: 0.5rem;
+}
+
+/* Small mono counter e.g. "2 selected" */
+.selection-count {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+}
+
+/* Primary submit button */
+.btn-submit {
+  background: var(--color-accent);
+  color: #0d0d0d;
+  border: none;
+  padding: 0.9rem 2.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-submit:hover {
+  background: var(--color-accent-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(200, 245, 66, 0.22);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+/* Retry button inside the error feedback strip */
+.btn-retry {
+  background: transparent;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  margin-top: 0.75rem;
+  transition: background 0.2s ease;
+}
+
+.btn-retry:hover {
+  background: rgba(255, 77, 77, 0.12);
+}
+
+/* ---- Bottom navigation row (Back / Previous Stage) ---- */
+.nav-row {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+/* Ghost-style secondary buttons */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.65rem 1.5rem;
+  font-size: 0.875rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+  border-color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+/* ---- Shared animations ---- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ---- Responsive adjustments ---- */
+@media (max-width: 600px) {
+  .captcha-card     { padding: 2rem 1.25rem; }
+  .image-grid       { grid-template-columns: repeat(2, 1fr); }
+  .challenge-display { font-size: 1.5rem; }
+}
