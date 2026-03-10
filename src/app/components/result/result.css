@@ -1,0 +1,189 @@
+/* ============================================================
+   RESULT COMPONENT STYLES
+   Success screen shown after all challenges are passed.
+   ============================================================ */
+
+/* --- Full-viewport wrapper with same textured dark bg --- */
+.result-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--color-bg);
+  background-image: radial-gradient(circle, #2a2a2a 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* --- Success card --- */
+.result-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 3rem;
+  max-width: 580px;
+  width: 100%;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  animation: popIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --- Animated accent ring that holds the success symbol --- */
+.success-ring {
+  width: 88px;
+  height: 88px;
+  border: 3px solid var(--color-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  animation: ringIn 0.5s ease both;
+
+  /* Lime glow effect */
+  box-shadow: 0 0 28px rgba(200, 245, 66, 0.25);
+}
+
+/* The symbol inside the ring */
+.success-symbol {
+  font-size: 2rem;
+  color: var(--color-accent);
+  font-weight: 800;
+  font-family: var(--font-mono);
+}
+
+/* --- Main heading --- */
+.result-card h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+/* --- Short congratulatory message under the heading --- */
+.result-message {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+/* ---- Summary stats panel ---- */
+.summary-panel {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+/* Panel title row */
+.summary-panel h3 {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 1rem;
+}
+
+/* Each stat row (label + value) */
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+/* Remove bottom border from the last row */
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+/* Stat label (left side) */
+.stat-label {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+/* Stat value (right side) */
+.stat-value {
+  font-weight: 700;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+/* Accent-coloured value for the "Verified" status */
+.stat-value.accent {
+  color: var(--color-accent);
+}
+
+/* ---- Action buttons ---- */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Primary: start a new challenge */
+.btn-primary {
+  background: var(--color-accent);
+  color: #0d0d0d;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(200, 245, 66, 0.22);
+}
+
+/* Secondary ghost button: back to home */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.9rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-display);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+/* ---- Animations ---- */
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+@keyframes ringIn {
+  from { opacity: 0; transform: scale(0); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 480px) {
+  .result-card { padding: 2.5rem 1.5rem; }
+}

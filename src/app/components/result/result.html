@@ -1,0 +1,62 @@
+<!-- ============================================================
+     RESULT TEMPLATE
+     Shown when the user has passed all three captcha stages.
+     All visible text comes from LanguageService (lang.t()).
+     ============================================================ -->
+
+<div class="result-container">
+
+  <!-- Language toggle — same fixed button present on every page -->
+  <button class="lang-toggle" (click)="lang.toggle()">
+    {{ lang.toggleLabel() }}
+  </button>
+
+  <div class="result-card">
+
+    <!-- Animated ring with check symbol -->
+    <div class="success-ring">
+      <span class="success-symbol">✓</span>
+    </div>
+
+    <!-- Heading and success message -->
+    <h1>{{ lang.t().result.heading }}</h1>
+    <p class="result-message" [innerHTML]="lang.t().result.message(totalStages).replace('\n', '<br>')"></p>
+
+    <!-- ---- Stats summary panel ---- -->
+    <div class="summary-panel">
+      <h3>{{ lang.t().result.summaryTitle }}</h3>
+
+      <!-- Stages completed -->
+      <div class="stat-row">
+        <span class="stat-label">{{ lang.t().result.labelStages }}</span>
+        <span class="stat-value">{{ completedStages }} / {{ totalStages }}</span>
+      </div>
+
+      <!-- Time elapsed -->
+      <div class="stat-row">
+        <span class="stat-label">{{ lang.t().result.labelTime }}</span>
+        <span class="stat-value">{{ getFormattedTime() }}</span>
+      </div>
+
+      <!-- Status -->
+      <div class="stat-row">
+        <span class="stat-label">{{ lang.t().result.labelStatus }}</span>
+        <span class="stat-value accent">{{ lang.t().result.statusValue }}</span>
+      </div>
+    </div>
+
+    <!-- ---- Action buttons ---- -->
+    <div class="action-buttons">
+      <!-- Start a fresh set of random challenges -->
+      <button class="btn-primary" (click)="startNewChallenge()">
+        {{ lang.t().result.btnAgain }}
+      </button>
+
+      <!-- Return to landing page -->
+      <button class="btn-ghost" (click)="goHome()">
+        {{ lang.t().result.btnHome }}
+      </button>
+    </div>
+
+  </div>
+</div>
