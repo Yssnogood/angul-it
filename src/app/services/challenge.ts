@@ -19,7 +19,8 @@
 // is called (once per "Begin Challenge" / "Recommencer" click).
 // ============================================================
 
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 // ---- Data shapes ----
 
@@ -58,8 +59,24 @@ interface ImageVariant {
   items:          BilingualImageItem[];
 }
 
+interface RawVariantPayload {
+  question: { fr: string; en: string };
+  hint?:    { fr: string; en: string };
+  word?:    { fr: string; en: string };
+  tiles?:   Array<{ id: string; emoji: string; label: { fr: string; en: string } }>;
+}
+
+interface ChallengeSnapshot {
+  activeChallenges: ChallengeData[];
+  rawVariants: Record<number, RawVariantPayload>;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ChallengeService {
+
+  private readonly STORAGE_KEY = 'angul-it-active-challenges';
+  private readonly platformId  = inject(PLATFORM_ID);
+  private readonly isBrowser   = isPlatformBrowser(this.platformId);
 
   // ===========================================================
   // STAGE 1 — Image-selection variants
@@ -289,14 +306,17 @@ export class ChallengeService {
    * (getQuestionByStage, getHintByStage, getTilesByStage) can
    * re-translate without regenerating challenges.
    */
-  private rawVariants: Record<number, {
-    question: { fr: string; en: string };
-    hint?:    { fr: string; en: string };
-    word?:    { fr: string; en: string };
-    tiles?:   Array<{ id: string; emoji: string; label: { fr: string; en: string } }>;
-  }> = {};
+  private rawVariants: Record<number, RawVariantPayload> = {};
 
   constructor() {
+    // Reuse the exact same generated challenge set after refresh.
+    const restored = this.loadSnapshot();
+    if (restored) {
+      this.activeChallenges = restored.activeChallenges;
+      this.rawVariants = restored.rawVariants;
+      return;
+    }
+
     // Seed with French by default (matches LanguageService default)
     this.generateRandomChallenges('fr');
   }
@@ -319,6 +339,43 @@ export class ChallengeService {
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+  }
+
+  private loadSnapshot(): ChallengeSnapshot | null {
+    if (!this.isBrowser) return null;
+
+    try {
+      const raw = localStorage.getItem(this.STORAGE_KEY);
+      if (!raw) return null;
+
+      const parsed = JSON.parse(raw) as ChallengeSnapshot;
+      if (!parsed || !Array.isArray(parsed.activeChallenges) || !parsed.rawVariants) {
+        return null;
+      }
+
+      if (parsed.activeChallenges.length !== 3) {
+        return null;
+      }
+
+      return parsed;
+    } catch {
+      return null;
+    }
+  }
+
+  private saveSnapshot(): void {
+    if (!this.isBrowser) return;
+
+    const snapshot: ChallengeSnapshot = {
+      activeChallenges: this.activeChallenges,
+      rawVariants: this.rawVariants,
+    };
+
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(snapshot));
+    } catch {
+      // Ignore storage failures to keep challenge flow functional.
+    }
   }
 
   // ---- Public API ----
@@ -413,6 +470,8 @@ export class ChallengeService {
         // No tiles for text stage
       },
     };
+
+    this.saveSnapshot();
   }
 
   /** Returns the challenge for the given stage number, or undefined if not found */
